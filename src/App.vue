@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import "bootstrap/dist/css/bootstrap.min.css";
 import FileFilterEditor from './components/FileFilterEditor.vue'
 import './index.css'
 
@@ -12,6 +13,7 @@ export default {
     FileFilterEditor
   }
 }
+import "bootstrap/dist/js/bootstrap.min";
 </script>
 
 <style>
