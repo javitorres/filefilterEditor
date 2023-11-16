@@ -1,15 +1,15 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <FileFilterEditor msg="Welcome to FileFilter Editor"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FileFilterEditor from './components/FileFilterEditor.vue'
+import './index.css'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    FileFilterEditor
   }
 }
 </script>

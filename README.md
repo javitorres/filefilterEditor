@@ -22,3 +22,7 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### Generate tailwind CSS:
+npx tailwindcss -i ./public/css/styles.css -o ./dist/styles.css --watch
