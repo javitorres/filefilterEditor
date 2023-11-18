@@ -1,4 +1,5 @@
 <template>
+    <p>Fihcero final:</p>
 </template>
 
 <script>
