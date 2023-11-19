@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-3">
-      <label for="csvFileInput" class="form-label">Carga un archivo CSV</label>
+      <label for="csvFileInput" class="form-label">Load data file</label>
       <input type="file" class="form-control" id="csvFileInput" @change="loadCsvFile" accept=".csv">
     </div>
     <div v-if="csvData.length > 0">
