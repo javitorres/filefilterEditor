@@ -1,5 +1,5 @@
 <template>
-  <FileFilterEditor msg="Welcome to FileFilter Editor"/>
+  <FileFilterEditor/>
 </template>
 
 <script>

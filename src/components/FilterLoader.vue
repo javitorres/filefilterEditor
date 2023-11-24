@@ -17,7 +17,7 @@ export default {
   name: 'FilterLoader',
   data() {
     return {
-
+      loadedConfig: Object
     };
   },
   emits: ['loadedConfig'],
@@ -34,7 +34,7 @@ export default {
         reader.onload = (e) => {
           try {
             const loadedConfig = yaml.load(e.target.result);
-            console.log(yaml.dump(loadedConfig));
+            console.log("Loaded new config:" + yaml.dump(loadedConfig));
             this.$emit('loadedConfig', loadedConfig);
           } catch (e) {
             console.log(e);
@@ -42,6 +42,8 @@ export default {
         };
 
         reader.readAsText(file);
+        // Resetear el valor del input después de la carga
+        event.target.value = '';
       }
     }
   }

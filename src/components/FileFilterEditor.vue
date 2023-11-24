@@ -5,7 +5,8 @@
 
     <div class="row">
       <div class="col-md-6">
-        <filter-loader @loadedConfig="msg => filterConfiguration = msg"></filter-loader>
+        <filter-loader 
+        @loadedConfig="loadedConfig => filterConfiguration = loadedConfig"></filter-loader>
       </div>
       
       <div class="col-md-6">
@@ -14,13 +15,13 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
-        <filter-configurator :filterConfiguration=filterConfiguration> </filter-configurator>
+      <div class="col-md-12">
+        <filter-configurator 
+          :filterConfiguration=this.filterConfiguration
+          
+        > </filter-configurator>
+        <!-- QUITO ESTO QUE NO HACE NADA @deleteFilter="newFilters => filterConfiguration.filters = newFilters" -->
       </div>
-      <div class="col-md-6">
-        <filter-result-inspector></filter-result-inspector>
-      </div>
-
     </div>
     
     <div class="row">
@@ -28,7 +29,6 @@
         <output-section></output-section>
       </div>
     </div>
-    
     
   </div>
 </template>
@@ -39,7 +39,6 @@ import CsvInputTable from './CsvInputTable.vue';
 import FilterLoader from './FilterLoader.vue';
 import FilterConfigurator from './FilterConfigurator.vue';
 import OutputSection from './OutputSection.vue';
-import FilterResultInspector from './FilterResultInspector.vue';
 
 export default {
   name: 'FileFilterEditor',
@@ -47,8 +46,7 @@ export default {
     CsvInputTable,
     FilterLoader,
     FilterConfigurator,
-    OutputSection,
-    FilterResultInspector
+    OutputSection
   },
   data() {
     return {
@@ -67,14 +65,12 @@ export default {
     };
   },
   watch: {
-    filterConfiguration: {
-      handler: function () {
-        console.log("FilterConfiguration changed: " + JSON.stringify(this.filterConfiguration));
-      },
-      deep: true
-    
+    filterConfiguration() {
+      console.log("FilterConfiguration changed: " + JSON.stringify(this.filterConfiguration));
+      
+    }
   }
-}
+
 }
 </script>
 
