@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <div class="mb-3">
+  <div class="row">
+    <p class="csvinputtable-style">CsvInputTableVUE</p>
+    <div class="col-md-6">
       <label for="csvFileInput" class="form-label">Load data file</label>
       <input type="file" class="form-control" id="csvFileInput" @change="loadCsvFile" accept=".csv">
     </div>
+    
     <div v-if="csvData.length > 0">
-      <h3 class="text-center">Vista Previa del Archivo CSV</h3>
+      <h3 class="text-center">Input file preview</h3>
       <table class="table">
         <thead>
           <tr>
@@ -25,6 +27,7 @@
 <script>
 import Papa from 'papaparse';
 
+
 export default {
   name: 'CsvInputTable',
   data() {
@@ -42,6 +45,8 @@ export default {
     loadCsvFile(event) {
       const file = event.target.files[0];
       if (file) {
+        this.csvData = [];
+        this.csvHeaders = [];
         Papa.parse(file, {
           header: true,
           delimiter: ';',
@@ -65,3 +70,8 @@ export default {
 }
 </script>
 
+<style>
+.csvinputtable-style {
+  background-color: rgb(250, 26, 149);
+}
+</style>
