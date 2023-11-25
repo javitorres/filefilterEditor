@@ -36,36 +36,34 @@
     </div> <!-- end of row -->
 
     <div v-for="(filter, index) in localFilterConfiguration.filters" :key="index" class="mb-3">
+      <div class="row">
+        
       <div class="col-md-6">
         <filter-editor 
           :actionType="filter.actionType" 
           :name="filter.name" 
           :disabled="filter.disabled"
           :actionConfig="filter.actionConfig" 
+          :filter="filter"
           
           @filterChanged="filterChanged(index, $event)"
           @deleteFilter="deleteFilter(index)" 
-          @testFilter="testFilter(index)">
+          >
 
         </filter-editor>
       </div>
+
       <div class="col-md-6">
         <filter-result-inspector></filter-result-inspector>
       </div>
-
+    </div>
     </div> <!-- end of v-for -->
 
 
     <!-- Buttons -->
     <div class="row">
       <div class="col">
-        <button class="btn btn-primary" @click="addFilter('python')">Añadir Filtro Python</button>
-      </div>
-      <div class="col">
-        <button class="btn btn-primary" @click="addFilter('pandas')">Añadir Filtro Pandas</button>
-      </div>
-      <div class="col">
-        <button class="btn btn-primary" @click="addFilter('sql')">Añadir Filtro SQL</button>
+        <button class="btn btn-primary" @click="addFilter('python')">Añadir Filtro</button>
       </div>
     </div>
 
@@ -109,9 +107,7 @@ export default {
       for (var i = 0; i < this.localFilterConfiguration.filters.length; i++) {
         console.log("Filter " + i + " is " + this.localFilterConfiguration.filters[i]["name"]);
       }
-    },
-    testFilter(index) {
-      console.log("Testing filter " + index);
+      this.$emit('update:filterConfiguration', this.localFilterConfiguration);
     },
     filterChanged(index, filterState) {
       this.localFilterConfiguration.filters[index].name = filterState.name;
@@ -120,12 +116,6 @@ export default {
     }
   },
   watch: {
-    filters: {
-      handler: function (val) {
-        this.$emit('deleteFilter', val);
-      },
-      deep: true
-    },
     filterConfiguration: {
       handler: function () {
         this.localFilterConfiguration= JSON.parse(JSON.stringify(this.filterConfiguration))

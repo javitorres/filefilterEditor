@@ -18,6 +18,8 @@
       <div class="col-md-12">
         <filter-configurator 
           :filterConfiguration=this.filterConfiguration
+
+          @update="update(newFilterConfiguration)"
           
         > </filter-configurator>
         <!-- QUITO ESTO QUE NO HACE NADA @deleteFilter="newFilters => filterConfiguration.filters = newFilters" -->
@@ -29,11 +31,8 @@
         <output-section></output-section>
       </div>
     </div>
-    
   </div>
 </template>
-
-
 <script>
 import CsvInputTable from './CsvInputTable.vue';
 import FilterLoader from './FilterLoader.vue';
@@ -67,13 +66,18 @@ export default {
   watch: {
     filterConfiguration() {
       console.log("FilterConfiguration changed: " + JSON.stringify(this.filterConfiguration));
+    }
+  },
+  methods: {
+    update(newFilterConfiguration) {
+      this.filterConfiguration = newFilterConfiguration;
+      console.log("FilterConfiguration changed: " + JSON.stringify(this.filterConfiguration));
       
     }
   }
 
 }
 </script>
-
 
 <style>
 .file-filter-editor-style {

@@ -5,20 +5,17 @@
         
         <p class="filtereditor-style">FilterEditorVUE</p>
         
-        <p>FilterEditor for actionType: {{ actionType }}</p>
-        <textarea class="form-control" rows="1" v-model="localName"></textarea>
+        <p>FilterEditor for actionType: {{ localFilter.actionType }} Name: {{ localFilter.name }} Code: {{ localFilter.code }}</p>
+        <textarea class="form-control" rows="1" v-model="localFilter.name"></textarea>
         <!-- Toggle Disabled -->
-        <input type="checkbox" v-model="localDisabled" id="disabled" title="rrr">
+        <input type="checkbox" v-model="localFilter.disabled" id="disabled" title="rrr">
         <!--<textarea class="form-control" rows="10" v-model="code"></textarea>-->
 
         <codemirror
-          v-model="code"
+          v-model="localFilter.actionConfig.code"
           :options="cmOption"      />
 
-        <!-- Delete filter button -->
         <button class="btn btn-danger" @click="deleteFilter">Delete filter</button>
-        <!-- Test filter -->
-        <!--<button class="btn btn-primary" @click="testFilter">Test filter</button>-->
       </div>
     </div>
   </div>
@@ -33,19 +30,12 @@
       Codemirror
     },
     props: {
-      actionType: String,
-      name: String,
-      disabled: Boolean,
-      actionConfig: Object
+      filter: Object
     },
     data() {
       return {
-        localActionType:JSON.parse(JSON.stringify(this.actionType)),
-        localName:JSON.parse(JSON.stringify(this.name)),
-        localDisabled:JSON.parse(JSON.stringify(this.disabled)),
-        localActionConfig:JSON.parse(JSON.stringify(this.actionConfig)),
-        code: this.actionConfig.code,
-      
+        localFilter: JSON.parse(JSON.stringify(this.filter)),
+       
         cmOption: {
           tabSize: 4,
           styleActiveLine: true,
@@ -69,17 +59,10 @@
       deleteFilter() {
         this.$emit('deleteFilter');
       },
-      testFilter() {
-        this.$emit('testFilter');
-      },
       emitChanges() {
-        this.$emit('filterChanged',{ 
-          name: this.name,
-          disabled: this.disabled,
-          code: this.code,
-        }
-      );
+        this.$emit('filterChanged',this.localFilter);
       },
+
       log(eventType, event) {
         console.log(eventType, event);
       }
