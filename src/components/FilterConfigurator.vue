@@ -1,6 +1,7 @@
 <template>
   <div>
     <p class="filter-configurator-style">FilterConfiguratorVUE</p>
+    <P>Filter status: chunk: {{ localFilterConfiguration.chunkSize }}</P>
 
     <div class="row">
       <div class="col-md-12">
@@ -40,13 +41,9 @@
         
       <div class="col-md-6">
         <filter-editor 
-          :actionType="filter.actionType" 
-          :name="filter.name" 
-          :disabled="filter.disabled"
-          :actionConfig="filter.actionConfig" 
           :filter="filter"
           
-          @filterChanged="filterChanged(index, $event)"
+          @filterUpdated="filterUpdated(index, $event)"
           @deleteFilter="deleteFilter(index)" 
           >
 
@@ -62,8 +59,8 @@
 
     <!-- Buttons -->
     <div class="row">
-      <div class="col">
-        <button class="btn btn-primary" @click="addFilter('python')">Añadir Filtro</button>
+      <div class="col-md-6">
+        <button class="btn btn-primary" @click="addFilter()">Añadir Filtro</button>
       </div>
     </div>
 
@@ -93,7 +90,7 @@ export default {
       this.$emit('update:filterConfiguration', this.localFilterConfiguration);
     },
     addFilter(actionType) {
-      this.localFilterConfiguration.filters.push({ name: "New Filter", actionType: actionType, disabled: false, actionConfig: {} });
+      this.localFilterConfiguration.filters.push({ name: "New Filter", description: "Filter description", actionType: actionType, disabled: false, code: "" });
 
     },
     updateFilter(index, config) {
@@ -111,8 +108,9 @@ export default {
     },
     filterChanged(index, filterState) {
       this.localFilterConfiguration.filters[index].name = filterState.name;
+      this.localFilterConfiguration.filters[index].description = filterState.description;
       this.localFilterConfiguration.filters[index].disabled = filterState.disabled;
-      this.localFilterConfiguration.filters[index].actionConfig.code = filterState.code;
+      this.localFilterConfiguration.filters[index].code = filterState.code;
     }
   },
   watch: {

@@ -5,11 +5,13 @@
       <label for="csvFileInput" class="form-label">Load config file</label>
       <input type="file" class="form-control" id="configInput" @change="loadConfigFile" accept=".yml">
     </div>
-
-    <codemirror
-        v-model="loadedConfig"
-        :options="cmOption"      />
-    
+    <div class="row">
+      
+    <codemirror v-if="textConfig.length > 0"
+        v-model="textConfig"
+        :options="cmOption"      
+        class="my-codemirror-editor"/>
+    </div>
   </div>
 </template>
 
@@ -22,10 +24,11 @@ export default {
   components: {
     Codemirror
   },
+
   data() {
     return {
       loadedConfig: Object,
-
+      textConfig: '',
       cmOption: {
           tabSize: 4,
           styleActiveLine: true,
@@ -33,18 +36,20 @@ export default {
           line: true,
           foldGutter: true,
           styleSelectedText: true,
-          mode: 'text/python',
+          mode: 'text/yaml',
           keyMap: "sublime",
           matchBrackets: true,
           showCursorWhenSelecting: true,
           theme: "monokai",
           extraKeys: { "Ctrl": "autocomplete" },
+          heigth: "300px",
           hintOptions:{
             completeSingle: false
           }
         }
     };
   },
+ 
   emits: ['loadedConfig'],
   methods: {
     loadConfigFile(event) {
@@ -54,11 +59,14 @@ export default {
 
         reader.onload = (e) => {
           try {
+            
             const loadedConfig = yaml.load(e.target.result);
-            console.log("Loaded new config:" + yaml.dump(loadedConfig));
+            this.textConfig = yaml.dump(loadedConfig);
+            console.log("Loaded new config:" + e.target.result);
+            
             this.$emit('loadedConfig', loadedConfig);
           } catch (e) {
-            console.log(e);
+            console.log("Error loading config file: " + e);
           }
         };
 
@@ -75,5 +83,11 @@ export default {
 .filterloader-style {
   background-color: rgb(42, 126, 165);
 }
+
+.my-codemirror-editor .CodeMirror {
+  max-height: 500px; /* ajusta esto según tus necesidades */
+  overflow-y: auto;  /* permite el desplazamiento vertical */
+}
+
 </style>
 

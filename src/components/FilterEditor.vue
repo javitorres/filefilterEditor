@@ -5,14 +5,42 @@
         
         <p class="filtereditor-style">FilterEditorVUE</p>
         
-        <p>FilterEditor for actionType: {{ localFilter.actionType }} Name: {{ localFilter.name }} Code: {{ localFilter.code }}</p>
-        <textarea class="form-control" rows="1" v-model="localFilter.name"></textarea>
-        <!-- Toggle Disabled -->
-        <input type="checkbox" v-model="localFilter.disabled" id="disabled" title="rrr">
-        <!--<textarea class="form-control" rows="10" v-model="code"></textarea>-->
+        <p>FilterEditor for actionType: {{ localFilter.actionType }} Name: {{ localFilter.name }} Description: {{ localFilter.description }} Code: {{ localFilter.code }} Disabled: {{ localFilter.disabled }}</p>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label for="filterName" class="form-label">Filter name</label>
+            <textarea class="form-control" rows="1" v-model="localFilter.name"></textarea>
+          </div>
+          <div class="col-md-6">
+            <label for="filterDescription" class="form-label">Filter description</label>
+            <textarea class="form-control" rows="1" v-model="localFilter.description"></textarea>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Select for action type. Options: python, pandas, sql, rest-->
+            <label for="actionType" class="form-label">Action type</label>
+            <select class="form-select" v-model="localFilter.actionType">
+              <option value="python">Python</option>
+              <option value="pandas">Pandas</option>
+              <option value="sql">SQL</option>
+              <option value="rest">REST</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <div class="form-check">
+
+              <label class="form-check-label" for="flexCheckDefault">Disabled</label>
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="localFilter.disabled">
+              
+            </div>
+          </div>
+        </div>
 
         <codemirror
-          v-model="localFilter.actionConfig.code"
+          v-model="localFilter.code"
           :options="cmOption"      />
 
         <button class="btn btn-danger" @click="deleteFilter">Delete filter</button>
@@ -59,8 +87,8 @@
       deleteFilter() {
         this.$emit('deleteFilter');
       },
-      emitChanges() {
-        this.$emit('filterChanged',this.localFilter);
+      filterUpdated(filter) {
+        this.$emit('filterUpdated', filter);
       },
 
       log(eventType, event) {
@@ -68,26 +96,20 @@
       }
     },
     watch: {
-      name() {
-        this.emitChanges();
-      },
-      code() {
-        this.emitChanges();
-      },
-      disabled() {
-        this.emitChanges();
+      localFilter() {
+        this.filterUpdated(JSON.parse(JSON.stringify(this.localFilter)));
       }
     }
   };
 </script>
 
 <style scoped>
-.filter-editor{
-  background-color: rgb(220, 220, 220);
-  text-align: left;
+  .filter-editor{
+    /**background-color: rgb(220, 220, 220);**/
+    text-align: left;
 
-}
-.filtereditor-style {
-  background-color: rgb(42, 126, 165);
-}
+  }
+  .filtereditor-style {
+    background-color: rgb(42, 126, 165);
+  }
 </style>
