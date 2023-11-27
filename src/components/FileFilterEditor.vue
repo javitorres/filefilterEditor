@@ -59,19 +59,20 @@ export default {
         chunkSize: 100000,
         sampleLines: 0,
         filters: []
-        
       }
     };
   },
   watch: {
     filterConfiguration() {
-      console.log("FilterConfiguration changed: " + JSON.stringify(this.filterConfiguration));
-    }
+      console.log("Watch: FilterConfiguration changed: " + JSON.stringify(this.filterConfiguration));
+    },
+    deep: true
+
   },
   methods: {
     update(newFilterConfiguration) {
       this.filterConfiguration = newFilterConfiguration;
-      console.log("FilterConfiguration changed: " + JSON.stringify(this.filterConfiguration));
+      console.log("Update: FilterConfiguration changed: " + JSON.stringify(this.filterConfiguration));
       
     }
   }

@@ -1,8 +1,13 @@
 <template>
   <div>
     <p class="filter-configurator-style">FilterConfiguratorVUE</p>
-    <P>Filter status: chunk: {{ localFilterConfiguration.chunkSize }}</P>
-
+    <p>Filter status: chunk: {{ localFilterConfiguration.chunkSize }}</p>
+    <p>Filters:</p>
+    <ul>
+      <li v-for="(filter, index) in localFilterConfiguration.filters" :key="index">
+        Name: {{ filter.name }} Description: {{ filter.description }} type: {{ filter.actionType }} Disabled: {{ filter.disabled }} Code: {{ filter.code }}
+      </li>
+    </ul>
     <div class="row">
       <div class="col-md-12">
 
@@ -91,7 +96,6 @@ export default {
     },
     addFilter(actionType) {
       this.localFilterConfiguration.filters.push({ name: "New Filter", description: "Filter description", actionType: actionType, disabled: false, code: "" });
-
     },
     updateFilter(index, config) {
       this.localFilterConfiguration.filters[index].config = config;
